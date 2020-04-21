@@ -1,7 +1,7 @@
 {
   "name": "ll_ssd1306",
   "version": "1.0.0",
-  "repo": "brendanashworth/bench",
+  "repo": "gzigzigzeo/ll_ssd1306",
   "description": "Easy to use, beautiful-looking benchmarking library",
   "keywords": [
     "mcu",
