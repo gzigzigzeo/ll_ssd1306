@@ -6,7 +6,7 @@ SSD1306 OLED display controller command generator.
 
 # Motivation
 
-I wanted to have library as tiny as possible to work with SSD1306 in my project. I also wanted to figure out for myself how this chip works and how in details.
+I wanted to have library as tiny as possible to work with SSD1306 in my project. I also wanted to figure out for myself how this chip works and in details.
 
 There is an excellent library [u8g2](https://github.com/olikraus/u8g2) which supports lots if not all OLED monochrome displays. It also capable of drawing, displaying text, glyps, etc. The point is that in my project I use just one, specific OLED module, for debugging purposes mostly. I do not want any size or speed overhead from the universal library.
 
