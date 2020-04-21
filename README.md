@@ -41,7 +41,7 @@ HAL_StatusTypeDef display_send_cmd(uint8_t* cmd, uint8_t size) {
     I2C_MEMADD_SIZE_8BIT,
     cmd,
     size,
-  	HAL_MAX_DELAY
+    HAL_MAX_DELAY
   );
 }
 
@@ -54,7 +54,7 @@ HAL_StatusTypeDef display_send_data(uint8_t* data, uint8_t size) {
     I2C_MEMADD_SIZE_8BIT,
     data,
     size,
-  	HAL_MAX_DELAY
+    HAL_MAX_DELAY
   );
 }
 
