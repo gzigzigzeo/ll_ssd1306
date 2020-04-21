@@ -19,12 +19,6 @@ extern "C" {
 #define LL_SSD1306_ARG_4BITS(A) ((A) & 0b1111)
 #define LL_SSD1306_ARG_6BITS(A) ((A) & 0b111111)
 
-// Command buffer
-typedef struct {
-	uint8_t *buffer;
-	uint8_t size;
-} ll_ssd1306_buffer_t;
-
 // Code: 3Eh
 // NOP
 #define LL_SSD1306_CMD_NOP 0xE3
@@ -150,10 +144,18 @@ enum {
 
 #define LL_SSD1306_CMD_ENABLE_CHARGE_PUMP_REGULATOR(enable) 0x8D, enable
 
-extern const ll_ssd1306_buffer_t ll_ssd1306_128x64_startup_cmd;
-extern const ll_ssd1306_buffer_t ll_ssd1306_128x32_startup_cmd;
+#define __LL_SSD1306_CMD_STARTUP_SIZE 17
+#define __LL_SSD1306_CMD_MIRROR_HV_SIZE 2
+#define __LL_SSD1306_CMD_SET_SLEEP_MODE_OFF_SIZE 2
+#define __LL_SSD1306_CMD_SET_PAGE_SIZE 5
 
-ll_ssd1306_buffer_t ll_ssd1306_set_page_cmd(uint8_t page);
+extern const uint8_t ll_ssd1306_cmd_startup_128x64[__LL_SSD1306_CMD_STARTUP_SIZE];
+extern const uint8_t ll_ssd1306_cmd_startup_128x32[__LL_SSD1306_CMD_STARTUP_SIZE];
+extern const uint8_t ll_ssd1306_cmd_mirror_hv[__LL_SSD1306_CMD_MIRROR_HV_SIZE];
+extern const uint8_t ll_ssd1306_cmd_set_sleep_mode_off[__LL_SSD1306_CMD_SET_SLEEP_MODE_OFF_SIZE];
+extern uint8_t ll_ssd1306_cmd_set_page[__LL_SSD1306_CMD_SET_PAGE_SIZE];
+
+void ll_ssd1306_set_page(uint8_t page);
 
 #ifdef __cplusplus
 }

@@ -5,7 +5,7 @@
 
 // This is the default startup sequence from the datasheet for 128x64 screen.
 // Display ON command is not included.
-static uint8_t ll_ssd1306_128x64_startup_sequence_buffer[] = {
+const uint8_t ll_ssd1306_cmd_startup_128x64[__LL_SSD1306_CMD_STARTUP_SIZE] = {
 	LL_SSD1306_CMD_SET_MULTIPLEX_RATIO(LL_SSD1306_MULTIPLEX_RATIO_FOR_64_LINES),
 	LL_SSD1306_CMD_SET_DISPLAY_OFFSET(0),
 	LL_SSD1306_CMD_SET_DISPLAY_START_LINE(0),
@@ -21,7 +21,7 @@ static uint8_t ll_ssd1306_128x64_startup_sequence_buffer[] = {
 
 // This is the default startup sequence from the datasheet for 128x32 screen.
 // Display ON command is not included.
-static uint8_t ll_ssd1306_128x32_startup_sequence_buffer[] = {
+const uint8_t ll_ssd1306_cmd_startup_128x32[__LL_SSD1306_CMD_STARTUP_SIZE] = {
 	LL_SSD1306_CMD_SET_MULTIPLEX_RATIO(LL_SSD1306_MULTIPLEX_RATIO_FOR_32_LINES),
 	LL_SSD1306_CMD_SET_DISPLAY_OFFSET(0),
 	LL_SSD1306_CMD_SET_DISPLAY_START_LINE(0),
@@ -35,31 +35,27 @@ static uint8_t ll_ssd1306_128x32_startup_sequence_buffer[] = {
 	LL_SSD1306_CMD_ENABLE_CHARGE_PUMP_REGULATOR(LL_SSD1306_CHARGE_PUMP_ENABLED),
 };
 
-static uint8_t set_page_cmd_buffer[] = {
+// Display might be rotated on breadboard
+const uint8_t ll_ssd1306_cmd_mirror_hv[__LL_SSD1306_CMD_MIRROR_HV_SIZE] = {
+	LL_SSD1306_CMD_SET_HORIZONTAL_MIRRORING_ON,
+	LL_SSD1306_CMD_SET_VERTICAL_MIRRORING_ON
+};
+
+// Switches sleep mode off
+const uint8_t ll_ssd1306_buf_set_sleep_mode_off[__LL_SSD1306_CMD_SET_SLEEP_MODE_OFF_SIZE] = {
+	LL_SSD1306_CMD_SET_SLEEP_MODE_OFF
+};
+
+// Sets the page for page addressing mode
+uint8_t ll_ssd1306_cmd_set_page[__LL_SSD1306_CMD_SET_PAGE_SIZE] = {
 	LL_SSD1306_CMD_SET_ADDRESSING_MODE(LL_SSD1306_ADDRESSING_MODE_PAGE),
 	LL_SSD1306_CMD_SET_PAM_PAGE_START_ADDRESS(0),
 	LL_SSD1306_CMD_SET_LOW_PAM_START_ADDRESS(0),
 	LL_SSD1306_CMD_SET_HIGH_PAM_START_ADDRESS(0)
 };
 
-const ll_ssd1306_buffer_t ll_ssd1306_128x64_startup_cmd = {
-	.buffer = ll_ssd1306_128x64_startup_sequence_buffer,
-	.size = sizeof(ll_ssd1306_128x64_startup_sequence_buffer)
-};
-
-const ll_ssd1306_buffer_t ll_ssd1306_128x32_startup_cmd = {
-	.buffer = ll_ssd1306_128x32_startup_sequence_buffer,
-	.size = sizeof(ll_ssd1306_128x32_startup_sequence_buffer)
-};
-
-const ll_ssd1306_buffer_t ll_ssd1306_set_page_and_zero_address_cmd = {
-	.buffer = set_page_cmd_buffer,
-	.size = sizeof(set_page_cmd_buffer)
-};
-
-ll_ssd1306_buffer_t ll_ssd1306_set_page_cmd(uint8_t page) {
-	*(set_page_cmd_buffer+2) =
+// Changes set page command without recreating in memory
+void ll_ssd1306_set_page(uint8_t page) {
+	*(ll_ssd1306_cmd_set_page+2) =
 		LL_SSD1306_CMD_SET_PAM_PAGE_START_ADDRESS(page);
-
-	return ll_ssd1306_set_page_and_zero_address_cmd;
 };
