@@ -1,0 +1,17 @@
+{
+  "name": "ll_ssd1306",
+  "version": "0.0.1",
+  "repo": "brendanashworth/bench",
+  "description": "Easy to use, beautiful-looking benchmarking library",
+  "keywords": [
+    "mcu",
+    "ssd1306",
+    "stm32",
+    "arduino",
+  ],
+  "license": "MIT",
+  "src": [
+    "ll_ssd1306.h",
+    "ll_ssd1306.c"
+  ]
+}
