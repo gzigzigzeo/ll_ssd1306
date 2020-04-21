@@ -28,7 +28,8 @@ or just copy `ll_ssd1306.*` to your dependency folder.
 #define DISPLAY_COMMAND_DR 0x0
 #define DISPLAY_DATA_DR    0x40
 #define DISPLAY_LINES      8
-#define ARR_WITH_SIZE(A)   (A), sizeof(A)
+#define DISPLAY_WIDTH      128
+#define ARR_WITH_SIZE(A)   (uint8_t*)A, sizeof(A)
 
 // Sends command to the display.
 HAL_StatusTypeDef display_send_cmd(uint8_t* cmd, uint8_t size) {
@@ -62,25 +63,35 @@ int main() {
   // idea in terms of firmware size. Let's use it here for the sake of simplicity.
 
   // Sends the startup sequence
-  display_send_cmd(ARR_WITH_SIZE(ll_ssd1306_128x64_startup_cmd));
+  display_send_cmd(ARR_WITH_SIZE(ll_ssd1306_cmd_startup_128x64));
 
   // Sets mirroring both vertical and horizontal (display upside down)
   display_send_cmd(ARR_WITH_SIZE(ll_ssd1306_cmd_mirror_hv));
 
   // Wakes display up
-  display_send_cmd(ARR_WITH_SIZE(ll_ssd1306_cmd_display_on));
+  display_send_cmd(ARR_WITH_SIZE(ll_ssd1306_cmd_set_sleep_mode_off));
 
-  uint8_t white_tile[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
-  uint8_t black_tile[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+  while (1)
+  {
+	  uint8_t white_tile[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+	  uint8_t black_tile[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-  for (int i = 0; i < DISPLAY_LINES; i++) {
-    display_send_cmd(ll_ssd1306_set_page_cmd(l));
+	  for (int i = 0; i < DISPLAY_LINES; i++) {
+      // Sets the display page (line of 8 px vertically)
+		  ll_ssd1306_set_page(i);
+		  display_send_cmd(ARR_WITH_SIZE(ll_ssd1306_cmd_set_page));
 
-    for (int n = 0; n < 4; n++) {
-      dispaly_send_data(i % 1 == 0 & n % 1 == 0 ? ARR_WITH_SIZE(white_tile) : ARR_WITH_SIZE(black_tile));
-    }
+      // Displays line of chess board
+		  for (int n = 0; n < DISPLAY_WIDTH / sizeof(white_tile); n++) {
+			  if (i % 2 == n % 2) {
+				  display_send_data(white_tile, sizeof(white_tile));
+			  } else {
+				  display_send_data(black_tile, sizeof(black_tile));
+			  }
+		  }
+	  }
+
+    // ...
   }
-
-  // ...
 }
 ```
