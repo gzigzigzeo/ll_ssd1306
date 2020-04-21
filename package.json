@@ -1,6 +1,6 @@
 {
   "name": "ll_ssd1306",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "repo": "brendanashworth/bench",
   "description": "Easy to use, beautiful-looking benchmarking library",
   "keywords": [
@@ -8,6 +8,7 @@
     "ssd1306",
     "stm32",
     "arduino",
+    "display"
   ],
   "license": "MIT",
   "src": [
