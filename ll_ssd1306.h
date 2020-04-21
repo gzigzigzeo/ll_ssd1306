@@ -5,7 +5,9 @@
 
 #include <stdint.h>
 
-namespace std { extern "C" {
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 // Utility macros
 #define SSD1306_ARG_2BITS(A) ((A) & 0b11)
@@ -149,6 +151,8 @@ extern const ssd1306_buffer_t ssd1306_128x32_startup_cmd;
 
 ssd1306_buffer_t ssd1306_set_page_cmd(uint8_t page);
 
-} }
+#ifdef __cplusplus
+}
+#endif
 
 #endif
