@@ -33,25 +33,27 @@ or just copy `ll_ssd1306.*` to your dependency folder.
 // Sends command to the display.
 HAL_StatusTypeDef display_send_cmd(uint8_t* cmd, uint8_t size) {
   // You might want to use _DMA or _IT
-  HAL_I2C_Mem_Write(
+  return HAL_I2C_Mem_Write(
     DISPLAY_INTERFACE,
     DISPLAY_ADDRESS,
     DISPLAY_COMMAND_DR,
     I2C_MEMADD_SIZE_8BIT,
-    cmd->buffer,
-    cmd->size
+    cmd,
+    size,
+  	HAL_MAX_DELAY
   );
 }
 
 // Writes display RAM
 HAL_StatusTypeDef display_send_data(uint8_t* data, uint8_t size) {
-  HAL_I2C_Mem_Write(
+  return HAL_I2C_Mem_Write(
     DISPLAY_INTERFACE,
     DISPLAY_ADDRESS,
     DISPLAY_DATA_DR,
     I2C_MEMADD_SIZE_8BIT,
     data,
-    size
+    size,
+  	HAL_MAX_DELAY
   );
 }
 
