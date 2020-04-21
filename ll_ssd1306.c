@@ -1,8 +1,8 @@
-#include <ll_1306.h>
+#include <ll_ssd1306.h>
 
 // This is the default startup sequence from the datasheet for 128x64 screen.
 // Display ON command is not included.
-static const uint8_t ssd1306_128x64_startup_sequence_buffer[] = {
+static uint8_t ssd1306_128x64_startup_sequence_buffer[] = {
 	SSD1306_CMD_SET_MULTIPLEX_RATIO(SSD1306_MULTIPLEX_RATIO_FOR_64_LINES),
 	SSD1306_CMD_SET_DISPLAY_OFFSET(0),
 	SSD1306_CMD_SET_DISPLAY_START_LINE(0),
@@ -18,7 +18,7 @@ static const uint8_t ssd1306_128x64_startup_sequence_buffer[] = {
 
 // This is the default startup sequence from the datasheet for 128x32 screen.
 // Display ON command is not included.
-const uint8_t ssd1306_128x32_startup_sequence_buffer[] = {
+static uint8_t ssd1306_128x32_startup_sequence_buffer[] = {
 	SSD1306_CMD_SET_MULTIPLEX_RATIO(SSD1306_MULTIPLEX_RATIO_FOR_32_LINES),
 	SSD1306_CMD_SET_DISPLAY_OFFSET(0),
 	SSD1306_CMD_SET_DISPLAY_START_LINE(0),
@@ -52,11 +52,11 @@ const ssd1306_buffer_t ssd1306_128x32_startup_cmd = {
 const ssd1306_buffer_t ssd1306_set_page_and_zero_address_cmd = {
 	.buffer = set_page_cmd_buffer,
 	.size = sizeof(set_page_cmd_buffer)
-}
+};
 
-uint8_t* ssd1306_set_page_cmd(uint8_t page) {
-	*(ssd1306_set_page_and_zero_address_cmd+2) =
+ssd1306_buffer_t ssd1306_set_page_cmd(uint8_t page) {
+	*(set_page_cmd_buffer+2) =
 		SSD1306_CMD_SET_PAM_PAGE_START_ADDRESS(page);
 
-	return set_page_cmd;
-}
+	return ssd1306_set_page_and_zero_address_cmd;
+};

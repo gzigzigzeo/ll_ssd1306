@@ -4,9 +4,8 @@
 #define __SSD1306_CMD
 
 #include <stdint.h>
-#include <_ansi.h>
 
-_BEGIN_STD_C
+namespace std { extern "C" {
 
 // Utility macros
 #define SSD1306_ARG_2BITS(A) ((A) & 0b11)
@@ -15,7 +14,7 @@ _BEGIN_STD_C
 #define SSD1306_ARG_6BITS(A) ((A) & 0b111111)
 
 // Command buffer
-typedef struct  = {
+typedef struct {
 	uint8_t *buffer;
 	uint8_t size;
 } ssd1306_buffer_t;
@@ -148,8 +147,8 @@ enum {
 extern const ssd1306_buffer_t ssd1306_128x64_startup_cmd;
 extern const ssd1306_buffer_t ssd1306_128x32_startup_cmd;
 
-uint8_t* ssd1306_set_page_cmd(uint8_t page);
+ssd1306_buffer_t ssd1306_set_page_cmd(uint8_t page);
 
-_END_STD_C
+} }
 
 #endif
