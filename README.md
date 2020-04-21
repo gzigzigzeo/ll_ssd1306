@@ -10,7 +10,7 @@ I wanted to have library as tiny as possible to work with SSD1306 in my project.
 
 There is an excellent library [u8g2](https://github.com/olikraus/u8g2) which supports lots if not all OLED monochrome displays. It also capable of drawing, displaying text, glyps, etc. The point is that in my project I use just one, specific OLED module, for debugging purposes mostly. I do not want any size or speed overhead from the universal library.
 
-This library consists of chip command macro definitions. It does care about transport layer and even displaying text. You have to implement whatever transport and drawing functions you want in your firmware.
+This library consists of chip command macro definitions. It does not care about transport layer and even displaying text. You have to implement whatever transport and drawing functions you want in your firmware.
 
 # Installation
 
