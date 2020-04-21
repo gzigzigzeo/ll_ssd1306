@@ -73,23 +73,23 @@ int main() {
 
   while (1)
   {
-	  uint8_t white_tile[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
-	  uint8_t black_tile[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+    uint8_t white_tile[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+    uint8_t black_tile[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-	  for (int i = 0; i < DISPLAY_LINES; i++) {
+    for (int i = 0; i < DISPLAY_LINES; i++) {
       // Sets the display page (line of 8 px vertically)
-		  ll_ssd1306_set_page(i);
-		  display_send_cmd(ARR_WITH_SIZE(ll_ssd1306_cmd_set_page));
+      ll_ssd1306_set_page(i);
+      display_send_cmd(ARR_WITH_SIZE(ll_ssd1306_cmd_set_page));
 
       // Displays line of chess board
-		  for (int n = 0; n < DISPLAY_WIDTH / sizeof(white_tile); n++) {
-			  if (i % 2 == n % 2) {
-				  display_send_data(white_tile, sizeof(white_tile));
-			  } else {
-				  display_send_data(black_tile, sizeof(black_tile));
-			  }
-		  }
-	  }
+      for (int n = 0; n < DISPLAY_WIDTH / sizeof(white_tile); n++) {
+        if (i % 2 == n % 2) {
+          display_send_data(white_tile, sizeof(white_tile));
+        } else {
+          display_send_data(black_tile, sizeof(black_tile));
+        }
+      }
+    }
 
     // ...
   }
