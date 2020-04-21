@@ -2,13 +2,13 @@
 
 SSD1306 OLED display controller command generator.
 
-(Datasheet)[https://cdn-shop.adafruit.com/datasheets/LL_SSD1306.pdf]
+[Datasheet](https://cdn-shop.adafruit.com/datasheets/LL_SSD1306.pdf)
 
 # Motivation
 
 I wanted to have library as tiny as possible to work with SSD1306 in my project. I also wanted to figure out for myself how this chip works and how in details.
 
-There is an excellent library (u8g2)[https://github.com/olikraus/u8g2] which supports lots if not all OLED monochrome displays. It also capable of drawing, displaying text, glyps, etc. The point is that in my project I use just one, specific OLED module, for debugging purposes mostly. I do not want any size or speed overhead from the universal library.
+There is an excellent library [u8g2](https://github.com/olikraus/u8g2) which supports lots if not all OLED monochrome displays. It also capable of drawing, displaying text, glyps, etc. The point is that in my project I use just one, specific OLED module, for debugging purposes mostly. I do not want any size or speed overhead from the universal library.
 
 This library consists of chip command macro definitions. It does care about transport layer and even displaying text. You have to implement whatever transport and drawing functions you want in your firmware.
 
