@@ -42,7 +42,7 @@ const uint8_t ll_ssd1306_cmd_mirror_hv[__LL_SSD1306_CMD_MIRROR_HV_SIZE] = {
 };
 
 // Switches sleep mode off
-const uint8_t ll_ssd1306_set_sleep_mode_off[__LL_SSD1306_CMD_SET_SLEEP_MODE_OFF_SIZE] = {
+const uint8_t ll_ssd1306_cmd_set_sleep_mode_off[__LL_SSD1306_CMD_SET_SLEEP_MODE_OFF_SIZE] = {
 	LL_SSD1306_CMD_SET_SLEEP_MODE_OFF
 };
 
