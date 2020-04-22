@@ -12,7 +12,6 @@
   ],
   "license": "MIT",
   "src": [
-    "ll_ssd1306.h",
-    "ll_ssd1306.c"
+    "ll_ssd1306.h"
   ]
 }
