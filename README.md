@@ -2,7 +2,7 @@
 
 SSD1306 OLED display controller command generator.
 
-[Datasheet](https://cdn-shop.adafruit.com/datasheets/LL_SSD1306.pdf)
+[Datasheet](https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf)
 
 # Motivation
 
