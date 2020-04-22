@@ -23,13 +23,13 @@ or just copy `ll_ssd1306.*` to your dependency folder.
 # Example (STM32, HAL, I2C)
 
 ```c
-#define DISPLAY_INTERFACE  &hi2c2
-#define DISPLAY_ADDRESS    (0x3C << 1)
-#define DISPLAY_COMMAND_DR 0x0
-#define DISPLAY_DATA_DR    0x40
-#define DISPLAY_LINES      8
-#define DISPLAY_WIDTH      128
-#define ARR_WITH_SIZE(A)   (uint8_t*)A, sizeof(A)
+#define DISPLAY_INTERFACE        &hi2c2       // IIC2
+#define DISPLAY_ADDRESS          (0x3C << 1)  // 7-bit master address
+#define DISPLAY_COMMAND_DR_VALUE 0x0          // Command prefix
+#define DISPLAY_DATA_DR_VALUE    0x40         // RAM write prefix
+#define DISPLAY_LINES            8            // Number of lines (64 px)
+#define DISPLAY_WIDTH            128          // Width
+#define ARR_WITH_SIZE(A)         (uint8_t*)A, sizeof(A)
 
 // Sends command to the display.
 HAL_StatusTypeDef display_send_cmd(uint8_t* cmd, uint8_t size) {
@@ -37,7 +37,7 @@ HAL_StatusTypeDef display_send_cmd(uint8_t* cmd, uint8_t size) {
   return HAL_I2C_Mem_Write(
     DISPLAY_INTERFACE,
     DISPLAY_ADDRESS,
-    DISPLAY_COMMAND_DR,
+    DISPLAY_COMMAND_DR_VALUE,
     I2C_MEMADD_SIZE_8BIT,
     cmd,
     size,
@@ -50,7 +50,7 @@ HAL_StatusTypeDef display_send_data(uint8_t* data, uint8_t size) {
   return HAL_I2C_Mem_Write(
     DISPLAY_INTERFACE,
     DISPLAY_ADDRESS,
-    DISPLAY_DATA_DR,
+    DISPLAY_DATA_DR_VALUE,
     I2C_MEMADD_SIZE_8BIT,
     data,
     size,
@@ -62,14 +62,16 @@ int main() {
   // Let's assume all perepherials are initialized already. Using HAL might be the bad
   // idea in terms of firmware size. Let's use it here for the sake of simplicity.
 
+  // Startup cmd
+  uint8_t display_startup_cmd[] = {
+		  LL_SSD1306_CMD_STARTUP_128x64,
+		  LL_SSD1306_CMD_SET_VERTICAL_MIRRORING_ON,
+		  LL_SSD1306_CMD_SET_HORIZONTAL_MIRRORING_ON,
+		  LL_SSD1306_CMD_SET_SLEEP_MODE_OFF
+  };
+
   // Sends the startup sequence
-  display_send_cmd(ARR_WITH_SIZE(ll_ssd1306_cmd_startup_128x64));
-
-  // Sets mirroring both vertical and horizontal (display upside down)
-  display_send_cmd(ARR_WITH_SIZE(ll_ssd1306_cmd_mirror_hv));
-
-  // Wakes display up
-  display_send_cmd(ARR_WITH_SIZE(ll_ssd1306_cmd_set_sleep_mode_off));
+  display_send(DISPLAY_COMMAND_DR_VALUE, ARR_WITH_SIZE(display_startup_cmd));
 
   while (1)
   {
@@ -78,8 +80,8 @@ int main() {
 
     for (int i = 0; i < DISPLAY_LINES; i++) {
       // Sets the display page (line of 8 px vertically)
-      ll_ssd1306_set_page(i);
-      display_send_cmd(ARR_WITH_SIZE(ll_ssd1306_cmd_set_page));
+      uint8_t set_page_cmd[] = { LL_SSD1306_SET_PAGE_CMD(i) };
+      display_send_cmd(ARR_WITH_SIZE(set_page_cmd));
 
       // Displays line of chess board
       for (int n = 0; n < DISPLAY_WIDTH / sizeof(white_tile); n++) {
